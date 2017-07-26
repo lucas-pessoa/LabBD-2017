@@ -11,6 +11,20 @@ DECLARE mostraId INT;
 END
 DELIMITER ;
 
+DELIMITER //
+
+CREATE FUNCTION mostraNaoConsanguineos (nc_cpf char(11)) RETURNS char(60)
+BEGIN
+DECLARE nomeCompleto varchar(40);
+
+SELECT CONCAT (Pessoa.prNome, Pessoa.sobrenome) into nomeCompleto
+FROM Familiar, NaoConsanguineo
+Where Familiar.cpfPaciente = nc_cpf AND Familiar.idRelacionado = NaoConsanguineo.idRelacionado;
+
+RETURN nomeCompleto;
+END
+DELIMITER;
+
 
 DELIMITER //
 create FUNCTION ConsultaIdRelacionadoNF (consultaId char(11)) RETURNS INT
@@ -187,3 +201,16 @@ Where Familiar.cpfPaciente = cpf AND Familiar.idRelacionado = Consanguineo.idRel
 RETURN nomeCompleto;
 END //
 DELIMITER ;
+
+DELIMITER $$
+DROP FUNCTION IF EXISTS `consultaNro`$$
+create FUNCTION consultaNro (con INTEGER) RETURNS INT
+
+BEGIN
+DECLARE mostraId INT;
+    SELECT idCuidador into mostraId
+    FROM HorarioCuida
+    WHERE cpf = con;
+    
+    return mostraId;
+END
