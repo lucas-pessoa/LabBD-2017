@@ -231,3 +231,15 @@ CREATE TRIGGER consanguineo_existe BEFORE INSERT ON Consanguineo
     		SIGNAL SQLSTATE VALUE '45000' SET MESSAGE_TEXT = 'Inserção falhou, consanguineo já existente';
   		END IF;
 END$$
+
+DELIMITER $$
+CREATE TRIGGER t_i_validaData
+BEFORE INSERT ON Atendimento
+FOR EACH ROW
+BEGIN
+DECLARE errormsg varchar(150);
+IF date(new.dia) < date(NOW()) THEN
+	SET errormsg = 'Erro encontrado: Não é possível marcar um atendimento neste dia.';
+	signal SQLSTATE '27520' set message_text = errormsg;
+END IF;
+END;	
