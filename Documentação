@@ -23,6 +23,8 @@ de tabelas relacionadas com a entidade Atendimento. As tabelas relacionadas são
 para fazer inserção em uma view que use mais de uma tabela.
 -> Procedure delete_atendimentoMedico: Não existe trigger "instead of" no MySQL. Logo, deve-se criar um procedimento
 para fazer a remoção em uma view que use mais de uma tabela.
+-> Trigger t_i_validaData para permitir o agendamento de atendimentos somente em horários depois do horário atual do banco,
+ou seja, apenas em datas válidas.
 */
 
 /*
